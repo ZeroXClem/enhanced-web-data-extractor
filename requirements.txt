@@ -28,7 +28,7 @@ numpy==2.0.0
 packaging==24.1
 pandas==2.0.2
 pillow==10.4.0
-protobuf==5.28.0
+protobuf>=3.20,<5
 pyarrow==17.0.0
 pydeck==0.9.1
 Pygments==2.18.0
@@ -41,7 +41,7 @@ rpds-py==0.20.0
 six==1.16.0
 smmap==5.0.1
 soupsieve==2.5
-streamlit==1.32.0
+streamlit==1.38.0
 tenacity==8.5.0
 toml==0.10.2
 tornado==6.4.1
