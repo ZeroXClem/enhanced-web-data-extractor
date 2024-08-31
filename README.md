@@ -14,7 +14,7 @@ A powerful and user-friendly web scraping tool built with Python and Streamlit.
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/enhanced-web-data-extractor.git
+   git clone https://github.com/ZeroXClem/enhanced-web-data-extractor.git
    cd enhanced-web-data-extractor
    ```
 
@@ -69,13 +69,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/yourusername/enhanced-web-data-extractor/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/ZeroXClem/enhanced-web-data-extractor/issues).
 
 ## 👨‍💻 Author
 
 [Your Name]
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/yourprofile)
+- GitHub: [@ZeroXClem](https://github.com/ZeroXClem)
+- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/ZeroXClem)
 
 ---
 
