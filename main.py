@@ -9,6 +9,7 @@ import json
 import xml.etree.ElementTree as ET
 import streamlit as st
 import tempfile
+import zipfile
 
 class WebDataExtractor:
     def __init__(self, base_url, max_depth=3, keywords=None):
@@ -150,6 +151,33 @@ if st.button("Start Scraping"):
                 data=xml_data,
                 file_name="scraped_data.xml",
                 mime="application/xml"
+            )
+
+        # Add a button to download all data in a zip file
+        with tempfile.TemporaryDirectory() as temp_dir:
+            zip_path = os.path.join(temp_dir, "scraped_data.zip")
+            with zipfile.ZipFile(zip_path, 'w') as zipf:
+                if save_format == 'csv':
+                    zipf.write(temp_file.name, "scraped_data.csv")
+                elif save_format == 'markdown':
+                    for filename in os.listdir(temp_dir):
+                        zipf.write(os.path.join(temp_dir, filename), filename)
+                elif save_format == 'json':
+                    json_path = os.path.join(temp_dir, "scraped_data.json")
+                    with open(json_path, 'w', encoding='utf-8') as f:
+                        f.write(json_data)
+                    zipf.write(json_path, "scraped_data.json")
+                elif save_format == 'xml':
+                    xml_path = os.path.join(temp_dir, "scraped_data.xml")
+                    with open(xml_path, 'w', encoding='utf-8') as f:
+                        f.write(xml_data)
+                    zipf.write(xml_path, "scraped_data.xml")
+            
+            st.download_button(
+                label="Download All",
+                data=open(zip_path, 'rb'),
+                file_name="scraped_data.zip",
+                mime="application/zip"
             )
 
         status_text.text("Data saved and ready for download!")
