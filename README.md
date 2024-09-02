@@ -9,6 +9,8 @@ A powerful and user-friendly web scraping tool built with Python and Streamlit.
 - 🔑 Keyword filtering to focus on relevant content
 - 📊 Multiple export formats: CSV, Markdown, JSON, and XML
 - 🖥️ Interactive Streamlit UI for easy operation
+- 🛡️ Rate limiting to respect server resources
+- 📈 Real-time progress tracking
 
 ## 🛠️ Installation
 
@@ -40,10 +42,11 @@ A powerful and user-friendly web scraping tool built with Python and Streamlit.
 
 3. In the Streamlit interface:
    - Enter the base URL you want to scrape
-   - Set the maximum number of pages to scrape
-   - Set the maximum depth for crawling
+   - Set the maximum number of pages to scrape (1-100)
+   - Set the maximum depth for crawling (1-10)
    - (Optional) Enter keywords to filter content
-   - Choose the desired export format
+   - Set the rate limit (requests per second)
+   - Choose the desired export format(s)
    - Click "Start Scraping"
 
 4. Monitor the progress and download the extracted data when complete.
@@ -73,9 +76,9 @@ Contributions, issues, and feature requests are welcome! Feel free to check [iss
 
 ## 👨‍💻 Author
 
-[Your Name]
+ZeroXClem
 - GitHub: [@ZeroXClem](https://github.com/ZeroXClem)
-- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/ZeroXClem)
+- LinkedIn: [@ZeroXClem LinkedIn](https://www.linkedin.com/in/ZeroXClem)
 
 ---
 
