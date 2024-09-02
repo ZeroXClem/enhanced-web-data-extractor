@@ -126,15 +126,14 @@ if st.button("Start Scraping"):
                     file_paths.append(filepath)
                 
                 st.write("Markdown files have been created. You can download them individually:")
-                for filename in os.listdir(temp_dir):
-                    if filename.endswith('.md'):
-                        with open(os.path.join(temp_dir, filename), 'r', encoding='utf-8') as f:
-                            st.download_button(
-                                label=f"Download {filename}",
-                                data=f.read(),
-                                file_name=filename,
-                                mime="text/markdown"
-                            )
+                for filepath in file_paths:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        st.download_button(
+                            label=f"Download {os.path.basename(filepath)}",
+                            data=f.read(),
+                            file_name=os.path.basename(filepath),
+                            mime="text/markdown"
+                        )
             if save_format == 'json' or save_format == 'all':
                 json_path = os.path.join(temp_dir, "scraped_data.json")
                 with open(json_path, 'w', encoding='utf-8') as f:
@@ -171,6 +170,7 @@ if st.button("Start Scraping"):
             zip_path = os.path.join(temp_dir, "scraped_data.zip")
             with zipfile.ZipFile(zip_path, 'w') as zipf:
                 for file_path in file_paths:
+                    # Ensure files are properly closed before adding to the zip file
                     zipf.write(file_path, os.path.basename(file_path))
             
             st.download_button(
