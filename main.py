@@ -96,7 +96,9 @@ if st.button("Start Scraping"):
         status_text.text("Scraping completed. Saving data...")
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            if save_format == 'csv':
+            file_paths = []
+
+            if save_format == 'csv' or save_format == 'all':
                 csv_path = os.path.join(temp_dir, "scraped_data.csv")
                 with open(csv_path, mode='w', newline='', encoding='utf-8') as temp_file:
                     fieldnames = ['url', 'title', 'content', 'depth']
@@ -104,6 +106,7 @@ if st.button("Start Scraping"):
                     writer.writeheader()
                     for item in extractor.data:
                         writer.writerow({k: item[k] for k in fieldnames})
+                file_paths.append(csv_path)
                 
                 st.download_button(
                     label="Download CSV",
@@ -111,7 +114,7 @@ if st.button("Start Scraping"):
                     file_name="scraped_data.csv",
                     mime="text/csv"
                 )
-            elif save_format == 'markdown':
+            if save_format == 'markdown' or save_format == 'all':
                 for item in extractor.data:
                     filename = f"{item['title'].replace(' ', '_')[:50]}.md"
                     filepath = os.path.join(temp_dir, filename)
@@ -120,27 +123,31 @@ if st.button("Start Scraping"):
                         f.write(f"**URL:** [{item['url']}]({item['url']})\n")
                         f.write(f"**Depth:** {item['depth']}\n\n")
                         f.write(item['content'])
+                    file_paths.append(filepath)
                 
                 st.write("Markdown files have been created. You can download them individually:")
                 for filename in os.listdir(temp_dir):
-                    with open(os.path.join(temp_dir, filename), 'r', encoding='utf-8') as f:
-                        st.download_button(
-                            label=f"Download {filename}",
-                            data=f.read(),
-                            file_name=filename,
-                            mime="text/markdown"
-                        )
-            elif save_format == 'json':
+                    if filename.endswith('.md'):
+                        with open(os.path.join(temp_dir, filename), 'r', encoding='utf-8') as f:
+                            st.download_button(
+                                label=f"Download {filename}",
+                                data=f.read(),
+                                file_name=filename,
+                                mime="text/markdown"
+                            )
+            if save_format == 'json' or save_format == 'all':
                 json_path = os.path.join(temp_dir, "scraped_data.json")
                 with open(json_path, 'w', encoding='utf-8') as f:
                     json.dump(extractor.data, f, indent=2)
+                file_paths.append(json_path)
+                
                 st.download_button(
                     label="Download JSON",
                     data=open(json_path, 'rb'),
                     file_name="scraped_data.json",
                     mime="application/json"
                 )
-            elif save_format == 'xml':
+            if save_format == 'xml' or save_format == 'all':
                 root = ET.Element("web_data")
                 for item in extractor.data:
                     page = ET.SubElement(root, "page")
@@ -151,6 +158,8 @@ if st.button("Start Scraping"):
                 xml_path = os.path.join(temp_dir, "scraped_data.xml")
                 with open(xml_path, 'w', encoding='utf-8') as f:
                     f.write(ET.tostring(root, encoding='unicode', method='xml'))
+                file_paths.append(xml_path)
+                
                 st.download_button(
                     label="Download XML",
                     data=open(xml_path, 'rb'),
@@ -161,16 +170,8 @@ if st.button("Start Scraping"):
             # Add a button to download all data in a zip file
             zip_path = os.path.join(temp_dir, "scraped_data.zip")
             with zipfile.ZipFile(zip_path, 'w') as zipf:
-                if save_format == 'csv':
-                    zipf.write(csv_path, "scraped_data.csv")
-                elif save_format == 'markdown':
-                    for filename in os.listdir(temp_dir):
-                        if filename.endswith('.md'):
-                            zipf.write(os.path.join(temp_dir, filename), filename)
-                elif save_format == 'json':
-                    zipf.write(json_path, "scraped_data.json")
-                elif save_format == 'xml':
-                    zipf.write(xml_path, "scraped_data.xml")
+                for file_path in file_paths:
+                    zipf.write(file_path, os.path.basename(file_path))
             
             st.download_button(
                 label="Download All",
